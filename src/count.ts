@@ -13,5 +13,8 @@ export async function getCount() {
 }
 
 export async function incrementCount() {
-  await redis.incr("count")
+  const count = await getCount()
+  const newCount = String(count + 1n)
+  await redis.set("count", newCount)
+  return newCount
 }
