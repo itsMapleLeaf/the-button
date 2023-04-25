@@ -41,6 +41,21 @@ export const layout = (html: string) => /* HTML */ `
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>the button</title>
+
+      <meta name="description" content="press." />
+
+      <meta property="og:title" content="the button" />
+      <meta property="og:url" content="https://the-button.deno.dev/" />
+      <meta property="og:description" content="press." />
+      <meta property="og:type" content="website" />
+
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:title" content="the button" />
+      <meta name="twitter:description" content="press." />
+      <meta name="twitter:creator" content="@heyImMapleLeaf" />
+
+      <meta name="theme-color" content="#0f172a" />
+
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
       <link
