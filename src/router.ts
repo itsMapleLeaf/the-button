@@ -52,7 +52,8 @@ router.get("/", async (context) => {
       let socket
 
       function connect() {
-        socket = new WebSocket("ws://" + location.host + "/socket")
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
+        socket = new WebSocket(protocol + "//" + location.host + "/socket")
         socket.addEventListener("message", (event) => {
           const message = JSON.parse(event.data)
           if (message.type === "set-count") {
