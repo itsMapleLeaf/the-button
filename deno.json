@@ -1,7 +1,7 @@
 {
   "tasks": {
     "dev": "deno task dev:app & deno task dev:tailwind",
-    "dev:app": "deno run -A --watch scripts/watch.ts",
+    "dev:app": "deno run -A --watch scripts/watch.ts --dev",
     "dev:tailwind": "npx tailwindcss@latest build -o public/tailwind.css -w",
     "build": "npx tailwindcss@latest -o public/tailwind.css -m"
   }
