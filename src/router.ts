@@ -61,7 +61,15 @@ router.get("/", async (context) => {
         socket.addEventListener("message", (event) => {
           const message = JSON.parse(event.data)
           if (message.type === "set-count") {
-            document.querySelector("[data-count]").textContent = message.count
+            const count = Number(
+              document.querySelector("[data-count]").textContent,
+            )
+
+            // don't update if the count is already higher
+            document.querySelector("[data-count]").textContent = Math.max(
+              message.count,
+              count,
+            )
           }
         })
         socket.addEventListener("close", () => {
