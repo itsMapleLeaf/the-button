@@ -90,7 +90,9 @@ router.get("/", async (context) => {
 
         if (button.dataset.disabled) return
         button.dataset.disabled = "true"
-        await fetch(form.action, { method: form.method })
+        const url = new URL(form.action, window.location.href)
+        url.searchParams.set("noredirect", "true")
+        await fetch(url, { method: form.method })
 
         delete button.dataset.disabled
       })
@@ -115,6 +117,12 @@ router.post(
       type: "count",
       count: await incrementCount(),
     })
+
+    if (context.request.url.searchParams.get("noredirect") === "true") {
+      context.response.status = 204
+      return
+    }
+
     context.response.redirect("/")
   },
 )

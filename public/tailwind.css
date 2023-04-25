@@ -745,20 +745,8 @@ video {
   transition-duration: 0s;
 }
 
-.data-\[disabled\]\:pointer-events-none[data-disabled] {
-  pointer-events: none;
-}
-
 .data-\[disabled\]\:cursor-not-allowed[data-disabled] {
   cursor: not-allowed;
-}
-
-.data-\[disabled\]\:opacity-50[data-disabled] {
-  opacity: 0.5;
-}
-
-.group[data-disabled] .group-data-\[disabled\]\:opacity-25 {
-  opacity: 0.25;
 }
 
 .group[data-disabled] .group-data-\[disabled\]\:opacity-50 {
