@@ -48,7 +48,7 @@ router.get("/", async (context) => {
         type="submit"
       >
         <div
-          class="bg-gradient-to-tr from-indigo-800 to-violet-800 absolute inset-0 border border-white/20 block rounded-md opacity-75 group-hover:opacity-100 transition-opacity group-active:brightness-110"
+          class="bg-gradient-to-tr from-indigo-800 to-violet-800 absolute inset-0 border border-white/20 block rounded-md opacity-75 group-hover:opacity-100 transition group-active:duration-0 group-active:brightness-125"
         ></div>
         <div class="relative -translate-y-0.5 text-xl leading-none">press.</div>
       </button>
