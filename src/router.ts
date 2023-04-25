@@ -3,12 +3,8 @@ import { layout } from "./layout.ts"
 
 export const router = new Router()
 
-router.get("/", async (context) => {
-  const kv = await Deno.openKv()
-  const entry = await kv.get(["count"])
-  await kv.close()
-
-  const count = typeof entry?.value === "string" ? BigInt(entry.value) : 0n
+router.get("/", (context) => {
+  const count = getCount()
 
   context.response.headers.set("Content-Type", "text/html")
   context.response.body = layout(/* HTML */ `
@@ -30,18 +26,12 @@ router.get("/", async (context) => {
   `)
 })
 
-router.post("/increment", async (context) => {
-  const kv = await Deno.openKv()
-
-  const entry = await kv.get(["count"])
-  const count = typeof entry.value === "string" ? BigInt(entry.value) : 0n
-
-  await kv
-    .atomic()
-    .set(["count"], (count + 1n).toString())
-    .commit()
-
-  await kv.close()
-
+router.post("/increment", (context) => {
+  localStorage.setItem("count", String(getCount() + 1n))
   context.response.redirect("/")
 })
+
+function getCount() {
+  const storedCount = localStorage.getItem("count")
+  return storedCount ? BigInt(storedCount) : 0n
+}
