@@ -15,6 +15,7 @@ function runServer() {
       return response!
     },
   })
+  console.info(`🦕 listening on http://localhost:${port}/`)
   server.listenAndServe()
 }
 
