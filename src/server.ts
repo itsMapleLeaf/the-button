@@ -1,3 +1,4 @@
+import { errors } from "https://deno.land/std@0.183.0/http/http_errors.ts"
 import { toPathString } from "https://deno.land/std@0.184.0/fs/_util.ts"
 import { Application } from "https://deno.land/x/oak@v12.2.0/mod.ts"
 import { port } from "./constants.ts"
@@ -12,9 +13,17 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.use(async (context) => {
-  await context.send({
-    root: toPathString(new URL("../public", import.meta.url)),
-  })
+  try {
+    await context.send({
+      root: toPathString(new URL("../public", import.meta.url)),
+    })
+  } catch (error) {
+    if (error instanceof errors.NotFound) {
+      console.info("not found:", context.request.url.pathname)
+      return
+    }
+    throw error
+  }
 })
 
 app.use((context) => {
