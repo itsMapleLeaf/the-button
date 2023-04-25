@@ -1,4 +1,4 @@
-import { Server } from "https://deno.land/std@0.183.0/http/mod.ts"
+import { Server } from "https://deno.land/std@0.184.0/http/mod.ts"
 import * as path from "https://deno.land/std@0.184.0/path/mod.ts"
 import { WebSocketServer } from "https://deno.land/x/websocket@v0.1.4/mod.ts"
 import { devSocketPort, port } from "../src/constants.ts"
