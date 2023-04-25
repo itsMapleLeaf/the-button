@@ -103,7 +103,7 @@ router.get("/", async (context) => {
 const rateLimit = await RateLimiter({
   // store: STORE, // Using MapStore by default.
   windowMs: 1000, // Window for the requests that can be made in miliseconds.
-  max: 50, // Max requests within the predefined window.
+  max: 20, // Max requests within the predefined window.
   headers: true, // Default true, it will add the headers X-RateLimit-Limit, X-RateLimit-Remaining.
   message: "Too many requests.", // Default message if rate limit reached.
   statusCode: 429, // Default status code if rate limit reached.
