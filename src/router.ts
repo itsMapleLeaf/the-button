@@ -9,6 +9,12 @@ const channel = new BroadcastChannel("count")
 channel.addEventListener("message", (event) => {
   const { count } = event.data
   for (const socket of sockets) {
+    // i don't know why this happens
+    if (socket.readyState !== WebSocket.OPEN) {
+      sockets.delete(socket)
+      continue
+    }
+
     socket.send(JSON.stringify({ type: "set-count", count }))
   }
 })
