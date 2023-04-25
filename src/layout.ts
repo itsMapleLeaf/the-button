@@ -1,6 +1,11 @@
+import { WebSocketServer } from "https://deno.land/x/websocket@v0.1.4/mod.ts"
 import { devSocketPort } from "./constants.ts"
 
 const isDev = Deno.args.includes("--dev")
+
+if (isDev) {
+  new WebSocketServer(devSocketPort)
+}
 
 const liveReloadScript = /* HTML */ `
   <script type="module">
