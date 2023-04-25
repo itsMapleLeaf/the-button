@@ -1,10 +1,11 @@
 import { Router } from "https://deno.land/x/oak@v12.2.0/mod.ts"
+import { getCount, incrementCount } from "./count.ts"
 import { layout } from "./layout.ts"
 
 export const router = new Router()
 
-router.get("/", (context) => {
-  const count = getCount()
+router.get("/", async (context) => {
+  const count = await getCount()
 
   context.response.headers.set("Content-Type", "text/html")
   context.response.body = layout(/* HTML */ `
@@ -26,12 +27,7 @@ router.get("/", (context) => {
   `)
 })
 
-router.post("/increment", (context) => {
-  localStorage.setItem("count", String(getCount() + 1n))
+router.post("/increment", async (context) => {
+  await incrementCount()
   context.response.redirect("/")
 })
-
-function getCount() {
-  const storedCount = localStorage.getItem("count")
-  return storedCount ? BigInt(storedCount) : 0n
-}
