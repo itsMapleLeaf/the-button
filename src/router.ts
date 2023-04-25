@@ -34,7 +34,7 @@ router.get("/socket", (context) => {
 router.get("/", async (context) => {
   const count = await getCount()
 
-  context.response.headers.set("Content-Type", "text/html")
+  context.response.headers.set("Content-Type", "text/html; charset=utf-8")
   context.response.body = layout(/* HTML */ `
     <h1 class="text-4xl font-light">
       the button has been pressed
@@ -45,6 +45,7 @@ router.get("/", async (context) => {
     <form method="post" action="/increment">
       <button
         class="relative group py-4 px-5 transition hover:shadow-lg active:shadow-md hover:-translate-y-0.5 shadow-md shadow-black/25 active:duration-0 active:translate-y-0"
+        type="submit"
       >
         <div
           class="bg-gradient-to-tr from-indigo-800 to-violet-800 absolute inset-0 border border-white/20 block rounded-md opacity-75 group-hover:opacity-100 transition-opacity group-active:brightness-110"
