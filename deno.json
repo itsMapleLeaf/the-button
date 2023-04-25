@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "deno run -A --watch watch.ts",
+    "deploy": "pnpx tailwindcss -o public/tailwind.css -m && deployctl deploy --project=the-button src/server.ts"
+  }
+}
