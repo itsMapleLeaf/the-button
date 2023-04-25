@@ -1,22 +1,24 @@
+import { Server } from "https://deno.land/std@0.183.0/http/mod.ts"
 import * as path from "https://deno.land/std@0.184.0/path/mod.ts"
 import { WebSocketServer } from "https://deno.land/x/websocket@v0.1.4/mod.ts"
-import { devSocketPort } from "./src/constants.ts"
+import { devSocketPort, port } from "../src/constants.ts"
+import { app } from "../src/server.ts"
 
-let server: Deno.Process
+let server: Server | undefined
+
 function runServer() {
   server?.close()
-  server = Deno.run({
-    cmd: "deno run --unstable --allow-net --allow-read --allow-env=PORT --watch src/server.ts --dev".split(
-      " ",
-    ),
+  server = new Server({
+    port,
+    handler: async (request) => {
+      const response = await app.handle(request)
+      return response!
+    },
   })
+  server.listenAndServe()
 }
 
 async function main() {
-  Deno.run({
-    cmd: "pnpx.cmd tailwindcss build -o public/tailwind.css -w".split(" "),
-  })
-
   const socket = new WebSocketServer(devSocketPort)
 
   runServer()
