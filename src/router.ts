@@ -15,7 +15,7 @@ channel.addEventListener("message", (event) => {
       continue
     }
 
-    socket.send(JSON.stringify({ type: "set-count", count }))
+    socket.send(count)
   }
 })
 
@@ -32,12 +32,20 @@ router.get("/socket", (context) => {
 
 router.get("/", async (context) => {
   const count = await getCount()
+  const locale = context.request.acceptsLanguages()
+
+  let formattedCount
+  try {
+    formattedCount = new Intl.NumberFormat(locale).format(count)
+  } catch {
+    formattedCount = count
+  }
 
   context.response.headers.set("Content-Type", "text/html; charset=utf-8")
   context.response.body = layout(/* HTML */ `
     <h1 class="text-4xl font-light">
       the button has been pressed
-      <span class="tabular-nums" data-count>${count}</span>
+      <span class="tabular-nums" data-count="${count}">${formattedCount}</span>
       times.
     </h1>
 
@@ -61,18 +69,13 @@ router.get("/", async (context) => {
         const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
         socket = new WebSocket(protocol + "//" + location.host + "/socket")
         socket.addEventListener("message", (event) => {
-          const message = JSON.parse(event.data)
-          if (message.type === "set-count") {
-            const count = Number(
-              document.querySelector("[data-count]").textContent,
-            )
+          const count = Number(
+            document.querySelector("[data-count]").dataset.count,
+          )
 
-            // don't update if the count is already higher
-            document.querySelector("[data-count]").textContent = Math.max(
-              message.count,
-              count,
-            )
-          }
+          // don't update if the count is already higher
+          document.querySelector("[data-count]").textContent =
+            new Intl.NumberFormat().format(Math.max(count, Number(event.data)))
         })
         socket.addEventListener("close", () => {
           setTimeout(connect, 1000)
