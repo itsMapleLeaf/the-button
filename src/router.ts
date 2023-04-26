@@ -34,11 +34,11 @@ router.get("/", async (context) => {
   const count = await getCount()
   const locale = context.request.acceptsLanguages()
 
-  let formattedCount
+  let formattedCount: string
   try {
     formattedCount = new Intl.NumberFormat(locale).format(count)
   } catch {
-    formattedCount = count
+    formattedCount = String(count)
   }
 
   context.response.headers.set("Content-Type", "text/html; charset=utf-8")
